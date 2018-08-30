@@ -11,10 +11,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        //Path = /home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input.txt
 
         List<Long> caseValues = new ArrayList<>();
-        Path filePath = Paths.get("/home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input2.txt");
+
+        Scanner pathReader = new Scanner(System.in);
+
+        Path filePath = Paths.get(pathReader.nextLine());
 
         try {
             Scanner scanner = new Scanner(filePath);
