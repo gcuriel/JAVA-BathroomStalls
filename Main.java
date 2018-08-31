@@ -5,15 +5,9 @@ import java.util.*;
 import java.io.*;
 public class Main {
 
-    /*
-        File Paths:
-        /home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input.txt
-        /home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input2.txt
-    */
-
     public static void main(String[] args) throws Exception{
-        String inputFilePath = "/home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input2.txt";
-        String outputFilePath = "/home/gabriel/IdeaProjects/BathroomStalls/src/com/company/output2.txt";
+        String inputFilePath = "input2.txt";
+        String outputFilePath = "output2.txt";
 
         BufferedReader bufferedReader=new BufferedReader(new FileReader(inputFilePath));
         BufferedWriter bufferedWriter=new BufferedWriter(new FileWriter(outputFilePath));
