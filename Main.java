@@ -1,88 +1,52 @@
 package com.company;
 
-import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
+import java.util.*;
+import java.io.*;
 public class Main {
 
-    public static void main(String[] args) {
+    /*
+        File Paths:
+        /home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input.txt
+        /home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input2.txt
+    */
 
-        //Path = /home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input.txt
+    public static void main(String[] args) throws Exception{
+        String inputFilePath = "/home/gabriel/IdeaProjects/BathroomStalls/src/com/company/input2.txt";
+        String outputFilePath = "/home/gabriel/IdeaProjects/BathroomStalls/src/com/company/output2.txt";
 
-        List<Long> caseValues = new ArrayList<>();
+        BufferedReader bufferedReader=new BufferedReader(new FileReader(inputFilePath));
+        BufferedWriter bufferedWriter=new BufferedWriter(new FileWriter(outputFilePath));
 
-        Scanner pathReader = new Scanner(System.in);
+        int numberOfCases = Integer.parseInt(bufferedReader.readLine().trim());
 
-        Path filePath = Paths.get(pathReader.nextLine());
+        //Splitting the string in the input file into 2 values
+        StringTokenizer stringSplit;
 
-        try {
-            Scanner scanner = new Scanner(filePath);
-            while (scanner.hasNext()) {
-                if (scanner.hasNextLong()) {
-                    caseValues.add(scanner.nextLong());
-                } else {
-                    scanner.next();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        for(int caseNumber=1;caseNumber<=numberOfCases;caseNumber++){
+            bufferedWriter.write("Case #"+caseNumber+": ");
+            stringSplit=new StringTokenizer(bufferedReader.readLine().trim());
+            long numberOfStalls=Long.parseLong(stringSplit.nextToken());
+            long numberOfPeople=Long.parseLong(stringSplit.nextToken());
+            long[] caseResult= solveBathroomStalls(numberOfStalls,numberOfPeople);
+            bufferedWriter.write(caseResult[0]+" "+caseResult[1]+"\n");
         }
+        bufferedReader.close();
+        bufferedWriter.close();
+        return;
+    }
 
-
-        //Scanner sc = new Scanner(System.in);
-        //System.out.println("Number of cases?");
-
-        //int numberOfCases = sc.nextInt();
-        long numberOfCases = caseValues.get(0);
-        long counterStalls=1;
-        long counterPeople=2;
-        long caseNumber = 1;
-
-        while (caseNumber < numberOfCases){
-
-
-            long firstStall = 1;
-            long lastStall;
-
-            //System.out.println("How many bathroom stalls?");
-            long numberOfStalls = caseValues.get((int) counterStalls);
-            lastStall = numberOfStalls+2;
-            counterStalls=counterStalls+2;
-
-            //System.out.println("How many people?");
-            long numberOfPeople = caseValues.get((int) counterPeople);
-            counterPeople=counterPeople+2;
-
-            while (numberOfPeople>0){
-
-                long middlePos;
-                numberOfPeople--;
-
-                if (numberOfPeople==0){
-
-                    middlePos = (long) Math.ceil((firstStall + lastStall)/2.0);
-                    //System.out.println("L  /  R");
-                    long Ls = middlePos-(firstStall+1);
-                    long Rs;
-                    if (lastStall == middlePos){Rs = (lastStall)-middlePos;}
-                    else{Rs = (lastStall-1)-middlePos;}
-
-                    System.out.println("Case #"+ caseNumber +":"+ Ls +"  "+Rs);
-
-                }
-                else {
-                    middlePos = (long) Math.ceil((firstStall + lastStall)/2);
-                }
-
-                firstStall = middlePos;
-
-            }
-            numberOfCases--;
-            caseNumber++;
+    public static long[] solveBathroomStalls(long numberofStalls, long numberOfPeople){
+        if(numberOfPeople==1){
+            long[] arr=new long[2];
+            arr[0]=numberofStalls/2;
+            arr[1]=(numberofStalls-1)/2;
+            return arr;
         }
+        if(numberOfPeople%2==0){
+            return solveBathroomStalls(numberofStalls/2,numberOfPeople/2);
+        }
+        return solveBathroomStalls((numberofStalls-1)/2,numberOfPeople/2);
+
     }
 }
